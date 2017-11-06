@@ -9,6 +9,9 @@ public interface Vector {
     // 获取元素数量
     int size();
 
+    // 容器大小
+    int capacity();
+
     // 获取指定位置的元素
     Person get(int index);
 
