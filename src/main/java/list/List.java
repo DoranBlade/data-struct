@@ -1,5 +1,6 @@
 package list;
 
+import exception.OutBoundException;
 import model.Person;
 
 /**
@@ -23,7 +24,7 @@ public interface List {
      * @param index 元素的索引
      * @return 元素
      */
-    Person get(int index);
+    Person get(int index) throws OutBoundException;
 
     /**
      * 查找指定元素在线性表中的索引位置
@@ -44,14 +45,14 @@ public interface List {
      * @param index 设置的索引位置
      * @param person 设置的元素
      */
-    void put(int index, Person person);
+    void put(int index, Person person) throws OutBoundException;
 
     /**
      * 删除index位置的元素，并返回该元素
      * @param index 需要删除元素的索引
      * @return 被删除的元素
      */
-    Person delete(int index);
+    Person delete(int index) throws OutBoundException;
 
     /**
      * 线性表元素的数量

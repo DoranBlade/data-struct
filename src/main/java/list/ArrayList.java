@@ -1,5 +1,6 @@
 package list;
 
+import exception.OutBoundException;
 import model.Person;
 
 /**
@@ -8,11 +9,23 @@ import model.Person;
  */
 public class ArrayList implements List {
 
+    private static final int default_length = 0;
+    private static final int default_size = 10;
+
     // 记录元素的数量
     private int length;
 
     // 保存元素的容器
     private Person[] container;
+
+    public ArrayList() {
+        this(default_size);
+    }
+
+    public ArrayList(int size) {
+        this.length = default_length;
+        this.container = new Person[size];
+    }
 
     @Override
     public boolean isEmpty() {
@@ -28,9 +41,9 @@ public class ArrayList implements List {
     }
 
     @Override
-    public Person get(int index) {
+    public Person get(int index) throws OutBoundException {
         if (index < 0 || index >=length) {
-            return null;
+            throw new OutBoundException();
         }
         return container[index];
     }
@@ -50,24 +63,38 @@ public class ArrayList implements List {
 
     @Override
     public void insert(int index, Person person) {
-
-    }
-
-    @Override
-    public void put(int index, Person person) {
         checkLength(index);
+        // index索引之后的元素向后移动
+        for (int endIndex = length; endIndex > index; endIndex--) {
+            container[endIndex] = container[endIndex - 1];
+        }
         container[index] = person;
         if (index >= length) {
             length = index + 1;
+        } else {
+            length++;
         }
     }
 
     @Override
-    public Person delete(int index) {
+    public void put(int index, Person person) throws OutBoundException{
+        if (index >= length) {
+            throw new OutBoundException();
+        }
+        container[index] = person;
+    }
+
+    @Override
+    public Person delete(int index) throws OutBoundException {
         if (index < 0 || index >= length) {
-            return null;
+            throw new OutBoundException();
         }
         Person removeItem = container[index];
+        // index索引之后的元素向前移动
+        while (index < length -1) {
+            container[index] = container[index + 1];
+            index++;
+        }
         container[index] = null;
         return removeItem;
     }
