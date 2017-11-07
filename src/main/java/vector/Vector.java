@@ -1,5 +1,7 @@
 package vector;
 
+import model.Person;
+
 /**
  * Vector抽象接口
  * Created by eric on 17-10-31

@@ -1,5 +1,7 @@
 package vector;
 
+import model.Person;
+
 /**
  * 连续结构的Vector
  * Created by eric on 17-10-31
