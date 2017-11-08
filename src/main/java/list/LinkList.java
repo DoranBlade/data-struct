@@ -1,10 +1,11 @@
 package list;
 
 import exception.OutBoundException;
+import model.Node;
 import model.Person;
 
 /**
- * 链式存储结构的线性表
+ * 链式结构的线性表
  * Created by eric on 17-11-7
  */
 public class LinkList implements List {
@@ -27,6 +28,7 @@ public class LinkList implements List {
     @Override
     public void clear() {
         first.setNext(null);
+        length = 0;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class LinkList implements List {
             throw new OutBoundException();
         }
         Node result = first;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i <= index; i++) {
             result = result.getNext();
         }
         return result.getValue();
@@ -55,7 +57,11 @@ public class LinkList implements List {
 
     @Override
     public void insert(int index, Person person) {
-
+        Node previousNode = grow(index);
+        Node currentNode = new Node(person);
+        currentNode.setNext(previousNode.getNext());
+        previousNode.setNext(currentNode);
+        length++;
     }
 
     @Override
@@ -64,19 +70,57 @@ public class LinkList implements List {
             throw new OutBoundException();
         }
         Node result = first;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i <= index; i++) {
             result = result.getNext();
         }
         result.setValue(person);
     }
 
     @Override
-    public Person delete(int index) {
-        return null;
+    public Person delete(int index) throws OutBoundException {
+        if (index >= length) {
+            throw new OutBoundException();
+        }
+        // 定位所删除元素的前节点
+        Node previousNode = first;
+        for (int i = 0; i < index; i++) {
+            previousNode = previousNode.getNext();
+        }
+        // 要删除的节点脱离链表，等待jvm回收
+        Node deleteNode = previousNode.getNext();
+        previousNode.setNext(deleteNode.getNext());
+        length--;
+        return deleteNode.getValue();
     }
 
     @Override
     public int length() {
         return length;
+    }
+
+    /**
+     * 判断是否需要扩容，如果需要扩容则扩容到指定大小
+     * @param index 需要插入的位置
+     * @return 需要插入节点的前节点
+     */
+    private Node grow(int index) {
+        // 在现有长度下不需要扩容
+        Node currentNode = first;
+        if (index <= length) {
+            for (int i = 0; i < index; i++)  {
+                currentNode = currentNode.getNext();
+            }
+            return currentNode;
+        }
+
+        // 需要填充空元素扩容
+        for (int i = 0; i < index; i++) {
+            if (i >= length) {
+                currentNode.setNext(Node.empty());
+                length++;
+            }
+            currentNode = currentNode.getNext();
+        }
+        return currentNode;
     }
 }

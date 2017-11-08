@@ -1,6 +1,4 @@
-package list;
-
-import model.Person;
+package model;
 
 public class Node {
 
@@ -10,9 +8,17 @@ public class Node {
     public Node() {
     }
 
+    public Node(Person value) {
+        this.value = value;
+    }
+
     public Node(Person value, Node next) {
         this.value = value;
         this.next = next;
+    }
+
+    public static Node empty() {
+        return new Node();
     }
 
     public Person getValue() {

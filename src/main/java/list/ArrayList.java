@@ -96,6 +96,7 @@ public class ArrayList implements List {
             index++;
         }
         container[index] = null;
+        length--;
         return removeItem;
     }
 
