@@ -1,4 +1,4 @@
-package Queue;
+package queue;
 
 import exception.OutBoundException;
 import model.Person;
@@ -54,8 +54,8 @@ public class ArrayQueue implements Queue {
             throw new OutBoundException();
         }
         // 第二个元素开始，向前移动
-        Person result = container[default_capacity];
-        int index = default_capacity;
+        Person result = container[default_length];
+        int index = default_length;
         for (; index < length - 1; index++) {
             container[index] = container[index + 1];
         }

@@ -4,14 +4,10 @@ import model.Person;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created by eric on 17-11-8
- */
-public class ArrayQueueTest {
-
+public class LinkQueueTest {
     @Test
     public void enqueue() throws Exception {
-        Queue queue = new ArrayQueue();
+        Queue queue = new LinkQueue();
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
         }
@@ -20,7 +16,7 @@ public class ArrayQueueTest {
 
     @Test
     public void clear() throws Exception {
-        Queue queue = new ArrayQueue();
+        Queue queue = new LinkQueue();
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
         }
@@ -30,7 +26,7 @@ public class ArrayQueueTest {
 
     @Test
     public void isEmpty() throws Exception {
-        Queue queue = new ArrayQueue();
+        Queue queue = new LinkQueue();
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
         }
@@ -41,7 +37,7 @@ public class ArrayQueueTest {
 
     @Test
     public void get() throws Exception {
-        Queue queue = new ArrayQueue();
+        Queue queue = new LinkQueue();
         queue.enQueue(new Person("tom", 12));
         queue.enQueue(Person.instance());
         Assert.assertTrue("tom".equals(queue.get().getName()));
@@ -49,7 +45,7 @@ public class ArrayQueueTest {
 
     @Test
     public void dequeue() throws Exception {
-        Queue queue = new ArrayQueue();
+        Queue queue = new LinkQueue();
         queue.enQueue(new Person("tom", 12));
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
