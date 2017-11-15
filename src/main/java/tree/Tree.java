@@ -29,7 +29,43 @@ public interface Tree {
      * 返回树的根节点
      * @return 树的根节点
      */
-    Person root();
+    Node root();
 
+    /**
+     * node是树中的一个节点，返回该节点的值
+     * @param node
+     * @return
+     */
+    Person value(Node node);
 
+    /**
+     * 给树的节点node赋值为value
+     */
+    void assign(Node node, Person value);
+
+    /**
+     * 若node为树的非根节点，返回该节点的双亲，否则返回空
+     */
+    Node parent(Node child);
+
+    /**
+     * 若node为树的非叶节点，返回该节点的左节点，否则返回空
+     */
+    Node leftChild(Node node);
+
+    /**
+     * 若果该节点在书中有右兄弟节点，返回该右兄弟节点，否则返回空
+     */
+    Node rightSlibing(Node node);
+
+    /**
+     * children非空且不与树相交
+     * 将children节点插入到parent的子节点最末尾
+     */
+    void insertChild(Node parent, Node children);
+
+    /**
+     * 删除parent节点的第index个子节点
+     */
+    void deleteChild(Node parent, int index);
 }
