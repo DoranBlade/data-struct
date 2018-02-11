@@ -1,14 +1,12 @@
 package string;
 
-import exception.OutBoundException;
-
 /**
  * 顺序结构的串
  */
 public class ArrayString implements String {
 
     private static final int default_length = 0;
-    private static final int default_size = 10;           
+    private static final int default_size = 10;
     private static final int default_not_found = -1;
 
     private int length;
@@ -61,7 +59,7 @@ public class ArrayString implements String {
     }
 
     @Override
-    public String concat(String other) throws OutBoundException {
+    public String concat(String other) {
         if (other.isEmpty()) {
             return copy();
         }
@@ -91,7 +89,7 @@ public class ArrayString implements String {
     }
 
     @Override
-    public int index(String other) throws OutBoundException {
+    public int index(String other) {
         // other串为空时，不匹配
         if (other.isEmpty()) {
             return default_not_found;
@@ -117,7 +115,7 @@ public class ArrayString implements String {
     }
 
     @Override
-    public void replace(String match, String value) throws OutBoundException {
+    public void replace(String match, String value) {
         if (match.isEmpty()) {
             return;
         }
@@ -132,7 +130,7 @@ public class ArrayString implements String {
     }
 
     @Override
-    public void insert(int index, String value) throws OutBoundException {
+    public void insert(int index, String value) {
         if (value.isEmpty()) {
             return;
         }
@@ -175,9 +173,9 @@ public class ArrayString implements String {
     }
 
     @Override
-    public Character get(int index) throws OutBoundException {
+    public Character get(int index) {
         if (isEmpty()) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
         return container[index];
     }
@@ -191,6 +189,7 @@ public class ArrayString implements String {
 
     /**
      * 检查是否需要增长长度
+     *
      * @param index
      */
     private void checkLength(int index) {
@@ -204,6 +203,7 @@ public class ArrayString implements String {
 
     /**
      * 自增长
+     *
      * @param length
      */
     private void grow(int length) {

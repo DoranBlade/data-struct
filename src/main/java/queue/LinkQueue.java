@@ -1,30 +1,25 @@
 package queue;
 
-import exception.OutBoundException;
 import model.Node;
-import model.Person;
 
 /**
  * Created by eric on 17-11-8
  */
-public class LinkQueue implements Queue {
+public class LinkQueue<T> implements Queue<T> {
 
     private static final int default_length = 0;
 
     private int length;
-    private Node first;
+    private Node<T> first;
 
     public LinkQueue() {
         this.length = default_length;
-        this.first = Node.empty();
+        this.first = new Node<>();
     }
 
 
     @Override
     public void clear() {
-        if (isEmpty()) {
-            return;
-        }
         first.setNext(null);
         length = default_length;
     }
@@ -40,31 +35,31 @@ public class LinkQueue implements Queue {
     }
 
     @Override
-    public Person get() throws OutBoundException {
+    public T get() {
         if (isEmpty()) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
         return first.getNext().getValue();
     }
 
     @Override
-    public Person deQueue() throws OutBoundException {
+    public T deQueue() {
         if (isEmpty()) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        Node currentNode = first.getNext();
+        Node<T> currentNode = first.getNext();
         first.setNext(currentNode.getNext());
         length--;
         return currentNode.getValue();
     }
 
     @Override
-    public void enQueue(Person person) {
-        Node currentNode = first;
+    public void enQueue(T t) {
+        Node<T> currentNode = first;
         for (int i = 0; i < length; i++) {
             currentNode = currentNode.getNext();
         }
-        currentNode.setNext(new Node(person));
+        currentNode.setNext(new Node<>(t));
         length++;
     }
 }

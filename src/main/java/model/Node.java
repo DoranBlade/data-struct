@@ -1,18 +1,18 @@
 package model;
 
-public class Node {
+public class Node<T> {
 
-    private Person value;
-    private Node next;
+    private T value;
+    private Node<T> next;
 
     public Node() {
     }
 
-    public Node(Person value) {
+    public Node(T value) {
         this.value = value;
     }
 
-    public Node(Person value, Node next) {
+    public Node(T value, Node<T> next) {
         this.value = value;
         this.next = next;
     }
@@ -21,19 +21,19 @@ public class Node {
         return new Node();
     }
 
-    public Person getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(Person value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
-    public Node getNext() {
+    public Node<T> getNext() {
         return next;
     }
 
-    public void setNext(Node next) {
+    public void setNext(Node<T> next) {
         this.next = next;
     }
 }

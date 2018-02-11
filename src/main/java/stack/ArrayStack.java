@@ -1,35 +1,27 @@
 package stack;
 
-import exception.OutBoundException;
-import model.Person;
-
 /**
  * 顺序结构的栈结构
  * Created by eric on 17-11-8
  */
-public class ArrayStack implements Stack {
+public class ArrayStack<T> implements Stack<T> {
 
     private static final int default_length = -1;
     private static final int default_size = 10;
 
     private int top;
 
-    private Person[] container;
+    private Object[] container;
 
     public ArrayStack() {
         this.top = default_length;
-        this.container = new Person[default_size];
+        this.container = new Object[default_size];
     }
 
 
     @Override
     public void clear() {
-        if (isEmpty()) {
-            return;
-        }
-        for (int i = 0; i <= top; i++) {
-            container[i] = null;
-        }
+        container = new Object[default_size];
         top = default_length;
     }
 
@@ -39,26 +31,26 @@ public class ArrayStack implements Stack {
     }
 
     @Override
-    public Person get() throws OutBoundException {
+    public T get() {
         if (isEmpty()) {
-            throw  new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        return container[top];
+        return (T) container[top];
     }
 
     @Override
-    public void push(Person person) {
+    public void push(T t) {
         grow();
         top++;
-        container[top] = person;
+        container[top] = t;
     }
 
     @Override
-    public Person pop() throws OutBoundException {
+    public T pop() {
         if (isEmpty()) {
-            throw  new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        Person result = container[top];
+        T result = (T) container[top];
         container[top] = null;
         top--;
         return result;
@@ -75,7 +67,7 @@ public class ArrayStack implements Stack {
     private void grow() {
         if (top >= container.length - 1) {
             int newCapacity = container.length * 2;
-            Person[] newContainer = new Person[newCapacity];
+            Object[] newContainer = new Object[newCapacity];
             for (int i = 0; i < container.length; i++) {
                 newContainer[i] = container[i];
             }

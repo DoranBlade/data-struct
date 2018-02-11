@@ -20,7 +20,7 @@ public class Person implements Comparable<Person> {
     }
 
     public static Person instance() {
-        RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('a', 'z') .build();
+        RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
         return new Person(generator.generate(10), RandomUtils.nextInt(1, 100));
     }
 

@@ -5,13 +5,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by eric on 17-11-8
+ * created by eric on 18-2-11
  */
-public class ArrayQueueTest {
+public class QueueTest {
 
     @Test
     public void enqueue() throws Exception {
-        Queue queue = new ArrayQueue();
+        enqueueTest(new ArrayQueue<>());
+        enqueueTest(new LinkQueue<>());
+    }
+    private void enqueueTest(Queue<Person> queue) {
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
         }
@@ -20,7 +23,11 @@ public class ArrayQueueTest {
 
     @Test
     public void clear() throws Exception {
-        Queue queue = new ArrayQueue();
+        clearTest(new ArrayQueue<>());
+        clearTest(new LinkQueue<>());
+
+    }
+    private void clearTest(Queue<Person> queue) {
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
         }
@@ -30,7 +37,10 @@ public class ArrayQueueTest {
 
     @Test
     public void isEmpty() throws Exception {
-        Queue queue = new ArrayQueue();
+        isEmptyTest(new ArrayQueue<>());
+        isEmptyTest(new LinkQueue<>());
+    }
+    private void isEmptyTest(Queue<Person> queue) {
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());
         }
@@ -41,7 +51,10 @@ public class ArrayQueueTest {
 
     @Test
     public void get() throws Exception {
-        Queue queue = new ArrayQueue();
+        getTest(new ArrayQueue<>());
+        getTest(new LinkQueue<>());
+    }
+    private void getTest(Queue<Person> queue) {
         queue.enQueue(new Person("tom", 12));
         queue.enQueue(Person.instance());
         Assert.assertTrue("tom".equals(queue.get().getName()));
@@ -49,7 +62,10 @@ public class ArrayQueueTest {
 
     @Test
     public void dequeue() throws Exception {
-        Queue queue = new ArrayQueue();
+       dequeueTest(new ArrayQueue<>());
+       dequeueTest(new LinkQueue<>());
+    }
+    private void dequeueTest(Queue<Person> queue) {
         queue.enQueue(new Person("tom", 12));
         for (int i = 0; i < 3; i++) {
             queue.enQueue(Person.instance());

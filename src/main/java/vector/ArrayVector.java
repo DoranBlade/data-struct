@@ -1,12 +1,12 @@
 package vector;
 
-import model.Person;
+import java.util.Comparator;
 
 /**
  * 连续结构的Vector
  * Created by eric on 17-10-31
  */
-public class ArrayVector implements Vector {
+public class ArrayVector<T> implements Vector<T> {
 
     public static final int defaultSize = 0;
     public static final int defaultCapacity = 10;
@@ -18,12 +18,12 @@ public class ArrayVector implements Vector {
     private int capacity;
 
     // 容器
-    private Person[] container;
+    private Object[] container;
 
     public ArrayVector() {
         this.size = defaultSize;
         this.capacity = defaultCapacity;
-        this.container = new Person[defaultCapacity];
+        this.container = new Object[defaultCapacity];
     }
 
 
@@ -38,30 +38,30 @@ public class ArrayVector implements Vector {
     }
 
     @Override
-    public Person get(int index) {
+    public T get(int index) {
         if (index >= capacity) {
             throw new IndexOutOfBoundsException("数组越界");
         }
-        return container[index];
+        return (T) container[index];
     }
 
     @Override
-    public void put(int index, Person person) {
+    public void put(int index, T t) {
         checkCapacity(index);
-        container[index] = person;
+        container[index] = t;
         if (index >= size) {
             size = index + 1;
         }
     }
 
     @Override
-    public void insert(int index, Person person) {
+    public void insert(int index, T t) {
         checkCapacity(index);
         // index之后元素向后移动一个位置
         for (int end = size; end > index; end--) {
             container[end] = container[end - 1];
         }
-        container[index] = person;
+        container[index] = t;
         if (index >= size) {
             size = index + 1;
         } else {
@@ -92,25 +92,25 @@ public class ArrayVector implements Vector {
     }
 
     @Override
-    public void sort() {
+    public void sort(Comparator<T> comparator) {
         clearEmpty();
         for (int i = 0; i < size; i++) {
             int minIndex = i;
             for (int j = i + 1; j < size; j++) {
-                if (container[j].compareTo(container[minIndex]) < 0) {
+                if (comparator.compare((T) container[j], (T) container[minIndex]) < 0) {
                     minIndex = j;
                 }
             }
-            Person temp = container[i];
+            Object temp = container[i];
             container[i] = container[minIndex];
             container[minIndex] = temp;
         }
     }
 
     @Override
-    public int find(Person person) {
+    public int find(T t) {
         for (int i = 0; i < size; i++) {
-            if (container[i] == person) {
+            if (container[i] == t) {
                 return i;
             }
         }
@@ -141,6 +141,7 @@ public class ArrayVector implements Vector {
      * 检查是否需要增长长度
      * 第一种情况是插入索引大于容器总长度
      * 第二种情况是插入索引小于容器总长度，但是容器已经没有空间了
+     *
      * @param index 需要插入的索引位置
      */
     private void checkCapacity(int index) {
@@ -154,6 +155,7 @@ public class ArrayVector implements Vector {
 
     /**
      * 增长容器长度
+     *
      * @param index 需要增长的最小索引
      */
     private void grow(int index) {
@@ -161,7 +163,7 @@ public class ArrayVector implements Vector {
         while (index >= newCapacity) {
             newCapacity *= 2;
         }
-        Person[] newContainer = new Person[newCapacity];
+        Object[] newContainer = new Object[newCapacity];
         for (int i = 0; i < capacity; i++) {
             newContainer[i] = container[i];
         }

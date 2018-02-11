@@ -1,32 +1,24 @@
 package queue;
 
-import exception.OutBoundException;
-import model.Person;
-
 /**
  * Created by eric on 17-11-8
  */
-public class ArrayQueue implements Queue {
+public class ArrayQueue<T> implements Queue<T> {
 
     private static final int default_length = 0;
     private static final int default_capacity = 10;
 
     private int length;
-    private Person[] container;
+    private Object[] container;
 
     public ArrayQueue() {
         this.length = default_length;
-        this.container = new Person[default_capacity];
+        this.container = new Object[default_capacity];
     }
 
     @Override
     public void clear() {
-        if (isEmpty()) {
-            return;
-        }
-        for (int i = 0; i < length; i++) {
-            container[i] = null;
-        }
+        container = new Object[default_capacity];
         length = default_length;
     }
 
@@ -41,20 +33,20 @@ public class ArrayQueue implements Queue {
     }
 
     @Override
-    public Person get() throws OutBoundException {
+    public T get() {
         if (isEmpty()) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        return container[default_length];
+        return (T) container[default_length];
     }
 
     @Override
-    public Person deQueue() throws OutBoundException {
+    public T deQueue() {
         if (isEmpty()) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
         // 第二个元素开始，向前移动
-        Person result = container[default_length];
+        T result = (T) container[default_length];
         int index = default_length;
         for (; index < length - 1; index++) {
             container[index] = container[index + 1];
@@ -65,16 +57,16 @@ public class ArrayQueue implements Queue {
     }
 
     @Override
-    public void enQueue(Person person) {
+    public void enQueue(T t) {
         grow();
-        container[length] = person;
+        container[length] = t;
         length++;
     }
 
     private void grow() {
         if (length == container.length + 1) {
             int newCapacity = container.length * 2;
-            Person[] newContainer = new Person[newCapacity];
+            Object[] newContainer = new Object[newCapacity];
             for (int i = 0; i < container.length; i++) {
                 newContainer[i] = container[i];
             }

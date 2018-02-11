@@ -1,23 +1,21 @@
 package list;
 
-import exception.OutBoundException;
 import model.Node;
-import model.Person;
 
 /**
  * 链式结构的线性表
  * Created by eric on 17-11-7
  */
-public class LinkList implements List {
+public class LinkList<T> implements List<T> {
 
     private static final int default_length = 0;
 
     private int length;
-    private Node first;
+    private Node<T> first;
 
     public LinkList() {
         this.length = default_length;
-        this.first = new Node();
+        this.first = new Node<>();
     }
 
     @Override
@@ -32,11 +30,11 @@ public class LinkList implements List {
     }
 
     @Override
-    public Person get(int index) throws OutBoundException {
+    public T get(int index) {
         if (index >= length) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        Node result = first;
+        Node<T> result = first;
         for (int i = 0; i <= index; i++) {
             result = result.getNext();
         }
@@ -44,11 +42,11 @@ public class LinkList implements List {
     }
 
     @Override
-    public int find(Person person) {
-        Node result = first;
+    public int find(T t) {
+        Node<T> result = first;
         for (int i = 0; i < length; i++) {
             result = result.getNext();
-            if (result.getValue().equals(person)) {
+            if (result.getValue().equals(t)) {
                 return i;
             }
         }
@@ -56,38 +54,38 @@ public class LinkList implements List {
     }
 
     @Override
-    public void insert(int index, Person person) {
-        Node previousNode = grow(index);
-        Node currentNode = new Node(person);
+    public void insert(int index, T t) {
+        Node<T> previousNode = grow(index);
+        Node<T> currentNode = new Node<>(t);
         currentNode.setNext(previousNode.getNext());
         previousNode.setNext(currentNode);
         length++;
     }
 
     @Override
-    public void put(int index, Person person) throws OutBoundException {
+    public void put(int index, T t) {
         if (index >= length) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        Node result = first;
+        Node<T> result = first;
         for (int i = 0; i <= index; i++) {
             result = result.getNext();
         }
-        result.setValue(person);
+        result.setValue(t);
     }
 
     @Override
-    public Person delete(int index) throws OutBoundException {
+    public T delete(int index) {
         if (index >= length) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
         // 定位所删除元素的前节点
-        Node previousNode = first;
+        Node<T> previousNode = first;
         for (int i = 0; i < index; i++) {
             previousNode = previousNode.getNext();
         }
         // 要删除的节点脱离链表，等待jvm回收
-        Node deleteNode = previousNode.getNext();
+        Node<T> deleteNode = previousNode.getNext();
         previousNode.setNext(deleteNode.getNext());
         length--;
         return deleteNode.getValue();
@@ -100,14 +98,15 @@ public class LinkList implements List {
 
     /**
      * 判断是否需要扩容，如果需要扩容则扩容到指定大小
+     *
      * @param index 需要插入的位置
      * @return 需要插入节点的前节点
      */
-    private Node grow(int index) {
+    private Node<T> grow(int index) {
         // 在现有长度下不需要扩容
-        Node currentNode = first;
+        Node<T> currentNode = first;
         if (index <= length) {
-            for (int i = 0; i < index; i++)  {
+            for (int i = 0; i < index; i++) {
                 currentNode = currentNode.getNext();
             }
             return currentNode;
@@ -116,7 +115,7 @@ public class LinkList implements List {
         // 需要填充空元素扩容
         for (int i = 0; i < index; i++) {
             if (i >= length) {
-                currentNode.setNext(Node.empty());
+                currentNode.setNext(new Node<>());
                 length++;
             }
             currentNode = currentNode.getNext();

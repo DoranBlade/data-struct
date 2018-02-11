@@ -5,12 +5,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by eric on 17-11-8
+ * created by eric on 18-2-10
  */
-public class ArrayListTest {
+public class ListTest {
+
     @Test
     public void insert() throws Exception {
-        List list = new ArrayList();
+        insertTest(new ArrayList<>());
+        insertTest(new LinkList<>());
+    }
+    private void insertTest(List<Person> list) {
         list.insert(0, Person.instance());
         Assert.assertEquals(list.length(), 1);
         list.insert(10, Person.instance());
@@ -19,7 +23,10 @@ public class ArrayListTest {
 
     @Test
     public void put() throws Exception {
-        List list = new ArrayList();
+         putTest(new ArrayList<>());
+         putTest(new LinkList<>());
+    }
+    private void putTest(List<Person> list) {
         list.insert(0, Person.instance());
         list.insert(0, Person.instance());
         list.put(0, new Person("tom", 12));
@@ -29,7 +36,10 @@ public class ArrayListTest {
 
     @Test
     public void delete() throws Exception {
-        List list = new ArrayList();
+        deleteTest(new LinkList<>());
+        deleteTest(new ArrayList<>());
+    }
+    private void deleteTest(List<Person> list) {
         list.insert(0, new Person("tom", 12));
         list.insert(0, Person.instance());
         list.delete(0);
@@ -39,7 +49,10 @@ public class ArrayListTest {
 
     @Test
     public void clear() throws Exception {
-        List list = new ArrayList();
+        clearTest(new LinkList<>());
+        clearTest(new ArrayList<>());
+    }
+    private void clearTest(List<Person> list) {
         list.insert(0, Person.instance());
         list.insert(0, Person.instance());
         list.clear();
@@ -48,7 +61,7 @@ public class ArrayListTest {
 
     @Test
     public void isEmpty() throws Exception {
-        List list = new ArrayList();
+        List list = new LinkList();
         Assert.assertEquals(list.isEmpty(), true);
     }
 }

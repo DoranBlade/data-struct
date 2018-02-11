@@ -1,13 +1,10 @@
 package list;
 
-import exception.OutBoundException;
-import model.Person;
-
 /**
  * 顺序结构线性表
- * Created by eric on 17-11-7
+ * Created by eric on 17-11-7s
  */
-public class ArrayList implements List {
+public class ArrayList<T> implements List<T> {
 
     private static final int default_length = 0;
     private static final int default_size = 10;
@@ -16,7 +13,7 @@ public class ArrayList implements List {
     private int length;
 
     // 保存元素的容器
-    private Person[] container;
+    private Object[] container;
 
     public ArrayList() {
         this(default_size);
@@ -24,7 +21,7 @@ public class ArrayList implements List {
 
     public ArrayList(int size) {
         this.length = default_length;
-        this.container = new Person[size];
+        this.container = new Object[size];
     }
 
     @Override
@@ -35,26 +32,26 @@ public class ArrayList implements List {
     @Override
     public void clear() {
         while (length > 0) {
-            length--;
-            container[length] = null;
+            this.length = default_length;
+            this.container = new Object[default_size];
         }
     }
 
     @Override
-    public Person get(int index) throws OutBoundException {
-        if (index < 0 || index >=length) {
-            throw new OutBoundException();
+    public T get(int index) {
+        if (index < 0 || index >= length) {
+            throw new IndexOutOfBoundsException();
         }
-        return container[index];
+        return (T) container[index];
     }
 
     @Override
-    public int find(Person person) {
-        if (person == null) {
+    public int find(T t) {
+        if (t == null) {
             return -1;
         }
         for (int i = 0; i < length; i++) {
-            if (person.equals(container[i])) {
+            if (t.equals(container[i])) {
                 return i;
             }
         }
@@ -62,13 +59,13 @@ public class ArrayList implements List {
     }
 
     @Override
-    public void insert(int index, Person person) {
+    public void insert(int index, T t) {
         checkLength(index);
         // index索引之后的元素向后移动
         for (int endIndex = length; endIndex > index; endIndex--) {
             container[endIndex] = container[endIndex - 1];
         }
-        container[index] = person;
+        container[index] = t;
         if (index >= length) {
             length = index + 1;
         } else {
@@ -77,21 +74,21 @@ public class ArrayList implements List {
     }
 
     @Override
-    public void put(int index, Person person) throws OutBoundException{
+    public void put(int index, T t) {
         if (index >= length) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        container[index] = person;
+        container[index] = t;
     }
 
     @Override
-    public Person delete(int index) throws OutBoundException {
+    public T delete(int index) {
         if (index < 0 || index >= length) {
-            throw new OutBoundException();
+            throw new IndexOutOfBoundsException();
         }
-        Person removeItem = container[index];
+        T removeItem = (T) container[index];
         // index索引之后的元素向前移动
-        while (index < length -1) {
+        while (index < length - 1) {
             container[index] = container[index + 1];
             index++;
         }
@@ -109,6 +106,7 @@ public class ArrayList implements List {
      * 检查是否需要增长长度
      * 第一种情况是插入索引大于容器总长度
      * 第二种情况是插入索引小于容器总长度，但是容器已经没有空间了
+     *
      * @param index 需要插入的索引位置
      */
     private void checkLength(int index) {
@@ -122,18 +120,24 @@ public class ArrayList implements List {
 
     /**
      * 增长容器长度
+     *
      * @param index 需要增长的最小索引
      */
     private void grow(int index) {
-        int newCapacity = container.length * 2;
-        while (index >= newCapacity) {
-            newCapacity *= 2;
-        }
-        Person[] newContainer = new Person[newCapacity];
+        int newCapacity = getNewCapacity(index);
+        Object[] newContainer = new Object[newCapacity];
         for (int i = 0; i < container.length; i++) {
             newContainer[i] = container[i];
         }
         container = newContainer;
+    }
+
+    private int getNewCapacity(int index) {
+        int newCapacity = container.length * 2;
+        while (index >= newCapacity) {
+            newCapacity *= 2;
+        }
+        return newCapacity;
     }
 
 }

@@ -4,22 +4,31 @@ import model.Person;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
- * Created by eric on 17-11-8
+ * created by eric on 18-2-11
  */
-public class LinkStackTest {
+public class StackTest {
+
     @Test
     public void push() throws Exception {
-        Stack stack = new LinkStack();
-        for (int i = 0; i < 11; i++) {
+        pushTest(new ArrayStack<>());
+        pushTest(new LinkStack<>());
+    }
+    private void pushTest(Stack<Person> stack) {
+        for (int i = 0; i < 20; i++) {
             stack.push(Person.instance());
         }
-        Assert.assertEquals(11, stack.length());
+        Assert.assertEquals(20, stack.length());
     }
 
     @Test
     public void get() throws Exception {
-        Stack stack = new LinkStack();
+        getTest(new ArrayStack<>());
+        getTest(new LinkStack<>());
+    }
+    private void getTest(Stack<Person> stack) {
         stack.push(Person.instance());
         stack.push(Person.instance());
         stack.push(new Person("tom", 12));
@@ -30,7 +39,10 @@ public class LinkStackTest {
 
     @Test
     public void pop() throws Exception {
-        Stack stack = new LinkStack();
+        popTest(new ArrayStack<>());
+        popTest(new LinkStack<>());
+    }
+    private void popTest(Stack<Person> stack) {
         stack.push(Person.instance());
         stack.push(Person.instance());
         stack.push(new Person("tom", 12));
@@ -41,7 +53,10 @@ public class LinkStackTest {
 
     @Test
     public void clear() throws Exception {
-        Stack stack = new LinkStack();
+        clearTest(new ArrayStack<>());
+        clearTest(new LinkStack<>());
+    }
+    private void clearTest(Stack<Person> stack) {
         stack.push(Person.instance());
         stack.push(Person.instance());
         stack.push(new Person("tom", 12));
