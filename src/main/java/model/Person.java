@@ -2,16 +2,22 @@ package model;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.text.RandomStringGenerator;
+import tree.Proportion;
 
 /**
  * Created by eric on 17-10-31
  */
-public class Person implements Comparable<Person> {
+public class Person implements Comparable<Person>, Cloneable, Proportion {
 
     private String name;
     private int age;
 
     public Person() {
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Person(this.getName(), this.getAge());
     }
 
     public Person(String name, int age) {
@@ -63,4 +69,8 @@ public class Person implements Comparable<Person> {
         this.age = age;
     }
 
+    @Override
+    public int getProportion() {
+        return getAge();
+    }
 }

@@ -4,7 +4,7 @@ package tree;
  * 二叉树节点
  * created by eric on 18-2-11
  */
-public class BinaryTreeNode<T> {
+public class BinaryTreeNode<T extends Cloneable> {
 
     private T value;
     private BinaryTreeNode<T> left;
@@ -40,4 +40,5 @@ public class BinaryTreeNode<T> {
     public void setRight(BinaryTreeNode<T> right) {
         this.right = right;
     }
+
 }

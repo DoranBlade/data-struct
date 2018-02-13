@@ -3,7 +3,10 @@ package tree;
 import faker.PersonFaker;
 import model.Person;
 import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -56,5 +59,15 @@ public class BinaryTreeTest {
     private void generateChild(BinaryTreeNode<Person> node) {
         node.setLeft(new BinaryTreeNode<>(PersonFaker.getInstance()));
         node.setRight(new BinaryTreeNode<>(PersonFaker.getInstance()));
+    }
+
+    @Test
+    public void createHuffmanTree() {
+        Person item1 = new Person("tom", 14);
+        Person item2 = new Person("jack", 18);
+        Person item3 = new Person("timi", 21);
+        Person item4 = new Person("kakao", 25);
+        BinaryTree<Person> huffmanTree = BinaryTree.createHuffmanTree(new Person[]{item1, item2, item3, item4});
+        Assert.assertThat(huffmanTree, CoreMatchers.notNullValue());
     }
 }
